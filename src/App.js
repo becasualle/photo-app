@@ -1,25 +1,28 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from 'react'
+import { FaSearch } from 'react-icons/fa'
+import Photo from './Photo'
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+
+
+  return <main>
+    <section className="search">
+      <form className="search-form">
+        <input type="text" placeholder="поиск" className="form-input" value={{/*query*/ }} onChange={{/*e => setQuery(e.target.value)*/ }} />
+        <button type="submit" className="submit-btn" onClick={{/*handleSubmit*/ }}>
+          <FaSearch />
+        </button>
+      </form>
+      <button onClick={{/*handleLiked*/ }}>liked</button>
+    </section>
+    <section className="photos">
+      <div className="photos-center">
+        {/* photos.map((photo, idx) => <Photo key={photo.id} item={photo} setLikedPhotos={setLikedPhotos} photos={photos} likedPhotos={likedPhotos} />)} */}
+
+      </div>
+      {/* {loading && <h2 className='loading'>Loading...</h2>} */}
+    </section>
+  </main>
 }
 
-export default App;
+export default App
