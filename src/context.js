@@ -4,7 +4,7 @@ import reducer from './reducer'
 const AppContext = React.createContext();
 
 const initialState = {
-
+    names: ['mark', 'peter']
 };
 
 const AppProvider = ({ children }) => {
