@@ -44,11 +44,34 @@ const AppProvider = ({ children }) => {
         // eslint-disable-next-line
     }, [page])
 
+    const updatePage = () => {
+        dispatch({ type: 'UPDATE_PAGE' })
+    };
+
+    const handleChange = e => {
+        dispatch({ type: 'UPDATE_QUERY', payload: e.target.value })
+    }
+
+    const handleSubmit = e => {
+        e.preventDefault();
+        dispatch({ type: 'SET_PAGE' });
+        fetchImages();
+    }
+
+    useEffect(() => {
+        window.addEventListener("scroll", updatePage);
+        return () => {
+            window.removeEventListener("scroll", updatePage);
+        };
+    }, []);
 
     return (
         <AppContext.Provider
             value={{
-                ...state
+                ...state,
+                updatePage,
+                handleChange,
+                handleSubmit
             }}
         >
             {children}

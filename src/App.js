@@ -1,14 +1,19 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import { FaSearch } from 'react-icons/fa'
 import Photo from './Photo';
 import { useGlobalContext } from './context'
 
 function App() {
-  const { photos, isLoading } = useGlobalContext();
+  const { photos, isLoading, query, handleChange, handleSubmit } = useGlobalContext();
 
   return <main>
     <section className="search">
-
+      <form className="search-form">
+        <input type="text" placeholder="поиск" className="form-input" value={query} onChange={handleChange} />
+        <button type="submit" className="submit-btn" onClick={handleSubmit}>
+          <FaSearch />
+        </button>
+      </form>
     </section>
     <section className="photos">
       <div className="photos-center">
