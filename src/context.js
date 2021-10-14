@@ -6,9 +6,12 @@ const AppContext = React.createContext();
 
 const initialState = {
     isLoading: false,
+    all_photos: [],
     photos: [],
+    liked_photos: [],
     page: 1,
-    query: ''
+    query: '',
+    isLikedFilterOn: false
 };
 
 const AppProvider = ({ children }) => {
@@ -62,6 +65,10 @@ const AppProvider = ({ children }) => {
         dispatch({ type: 'TOGGLE_LIKE', payload: id })
     }
 
+    const handleLikedFilter = () => {
+        dispatch({ type: 'TOGGLE_LIKED_FILTER' })
+    }
+
     useEffect(() => {
         window.addEventListener("scroll", updatePage);
         return () => {
@@ -76,7 +83,8 @@ const AppProvider = ({ children }) => {
                 updatePage,
                 handleChange,
                 handleSubmit,
-                handleLike
+                handleLike,
+                handleLikedFilter
             }}
         >
             {children}

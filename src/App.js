@@ -4,7 +4,7 @@ import Photo from './Photo';
 import { useGlobalContext } from './context'
 
 function App() {
-  const { photos, isLoading, query, handleChange, handleSubmit } = useGlobalContext();
+  const { photos, isLoading, query, handleChange, handleSubmit, handleLikedFilter } = useGlobalContext();
 
   return <main>
     <section className="search">
@@ -14,6 +14,7 @@ function App() {
           <FaSearch />
         </button>
       </form>
+      <button onClick={handleLikedFilter}>моя коллекция</button>
     </section>
     <section className="photos">
       <div className="photos-center">
