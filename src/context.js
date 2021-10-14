@@ -58,6 +58,10 @@ const AppProvider = ({ children }) => {
         fetchImages();
     }
 
+    const handleLike = (id) => {
+        dispatch({ type: 'TOGGLE_LIKE', payload: id })
+    }
+
     useEffect(() => {
         window.addEventListener("scroll", updatePage);
         return () => {
@@ -71,7 +75,8 @@ const AppProvider = ({ children }) => {
                 ...state,
                 updatePage,
                 handleChange,
-                handleSubmit
+                handleSubmit,
+                handleLike
             }}
         >
             {children}

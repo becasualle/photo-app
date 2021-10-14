@@ -49,6 +49,18 @@ const reducer = (state, action) => {
         return { ...state, page: 1 }
     }
 
+    if (action.type === 'TOGGLE_LIKE') {
+        const id = action.payload;
+        const tempPhotos = state.photos.map(photo => {
+            if (photo.id === id) {
+                photo.liked_by_user = !photo.liked_by_user;
+            }
+            return photo
+        })
+
+        return { ...state, photos: tempPhotos }
+    }
+
     throw new Error('no matching action type')
 }
 
