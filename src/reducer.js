@@ -24,7 +24,6 @@ const reducer = (state, action) => {
             return { ...state, all_photos: [...state.photos, ...data], photos: [...state.photos, ...data], isLoading: false }
         } else {
             data = action.payload.filter(item => !state.photos.some(photo => photo.id === item.id))
-            console.log(data)
             return { ...state, all_photos: [...state.photos, ...data], photos: [...state.photos, ...data], isLoading: false }
         }
 
