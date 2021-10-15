@@ -61,8 +61,13 @@ const AppProvider = ({ children }) => {
         fetchImages();
     }
 
-    const handleLike = (id) => {
+    const handleLike = id => {
         dispatch({ type: 'TOGGLE_LIKE', payload: id })
+    }
+
+    const handleDelete = id => {
+        console.log(id)
+        dispatch({ type: 'DELETE_ITEM', payload: id })
     }
 
     const handleLikedFilter = () => {
@@ -84,7 +89,8 @@ const AppProvider = ({ children }) => {
                 handleChange,
                 handleSubmit,
                 handleLike,
-                handleLikedFilter
+                handleLikedFilter,
+                handleDelete
             }}
         >
             {children}

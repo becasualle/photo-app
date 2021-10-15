@@ -86,6 +86,11 @@ const reducer = (state, action) => {
         }
     }
 
+    if (action.type === 'DELETE_ITEM') {
+        const tempAll = state.all_photos.filter(photo => photo.id !== action.payload)
+        return { ...state, all_photos: [...tempAll], photos: [...tempAll] }
+    }
+
 
     if (action.type === 'TOGGLE_LIKED_FILTER') {
         if (state.isLikedFilterOn) {
