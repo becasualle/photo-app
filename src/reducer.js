@@ -56,28 +56,37 @@ const reducer = (state, action) => {
     }
 
     if (action.type === 'TOGGLE_LIKE') {
-        // TODO: если мы находимся на странице лайкнутых фото - обнови photos: liked_photos чтобы сразу убрать фото из рендера этой страница
-        // TODO: если находимся на общей странице (фильтр не применен) - просто почисти статус
-        // TODO: вне зависимости от того, какой у нас массив на входе - с этим элементом или нет (когда в случае поиска изменился массив) - пройдись по элементам и замени статус islikedbyuser на актуальный
-        let newLikedPhoto;
+        // нужно задать разное поведение в зависимости от двух условий - применен ли сейчас фильтр коллекции и лайкали ли мы фото ранее (содержится ли оно в коллекции)
+        let toggledPhoto;
         const id = action.payload;
-        // если фото уже лайкнуто - удали его из коллекции
         const isInLikedPhotos = state.liked_photos.some(photo => photo.id === id);
-        if (isInLikedPhotos) {
-            const tempLiked = state.liked_photos.filter(photo => photo.id !== id)
-            return { ...state, liked_photos: tempLiked }
-        } else {
-            // если оно не лайкнуто - добавь в коллекцию
+        const updateLikedByUser = () => {
             const tempAll = state.all_photos.map(photo => {
                 if (photo.id === id) {
-                    photo.liked_by_user = true;
-                    newLikedPhoto = photo;
+                    photo.liked_by_user = !photo.liked_by_user;
+                    toggledPhoto = photo;
                 }
                 return photo
             })
-            return { ...state, all_photos: tempAll, liked_photos: [...state.liked_photos, newLikedPhoto] }
+            return tempAll
+        }
+        // если фото уже в коллекции (лайкнуто) - сними лайк и убери из коллекции. Если еще не в коллекции - поставь лайк и добавь в нее.
+        if (isInLikedPhotos) {
+            const tempLiked = state.liked_photos.filter(photo => photo.id !== id)
+            const tempAll = updateLikedByUser();
+            // если снимаем лайк, когда применен фильтр - сразу отобрази удаление фото из страницы (обнови photos на основе которого строится рендер)
+            if (state.isLikedFilterOn) {
+                return { ...state, all_photos: tempAll, liked_photos: tempLiked, photos: tempLiked }
+            } else {
+                return { ...state, all_photos: tempAll, liked_photos: tempLiked, photos: tempAll }
+            }
+        } else {
+            // если фото еще не в коллекции - поставь лайк и добавь в нее. Это также означает, что фильтр точно не активен, ведь там показываются только фото в коллекции.
+            const tempAll = updateLikedByUser();
+            return { ...state, all_photos: tempAll, liked_photos: [...state.liked_photos, toggledPhoto], photos: tempAll }
         }
     }
+
 
     if (action.type === 'TOGGLE_LIKED_FILTER') {
         if (state.isLikedFilterOn) {
